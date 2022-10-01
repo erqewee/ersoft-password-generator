@@ -1,0 +1,28 @@
+{
+  "name": "@ersoft/password-generator",
+  "version": "1.0.0-stable",
+  "description": "Best password generator!",
+  "main": "src/export.ts",
+  "private": false,
+  "scripts": {
+    "start": "ts-node src/export.ts"
+  },
+  "keywords": [
+    "pw",
+    "chalk",
+    "db",
+    "password"
+  ],
+  "author": "Eren",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/node": "^18.7.13"
+  },
+  "dependencies": {
+    "chalk": "4.1.2",
+    "wio.db": "^4.0.22"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
