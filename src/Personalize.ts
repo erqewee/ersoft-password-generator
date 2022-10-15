@@ -2,9 +2,10 @@ import { writeFileSync } from "node:fs";
 import { Logger } from "./base/Logger";
 const logger = new Logger();
 
-import { JsonDatabase, YamlDatabase } from "wio.db";
-const jdb = new JsonDatabase({ databasePath: ".\\@erqewee\\database.json" });
-const ydb = new YamlDatabase({ databasePath: ".\\@erqewee\\database.yml" });
+import { DatabaseTypes } from "./base/@types/DatabaseOptions";
+import { Database } from "./base/Database";
+const jdb = new Database({ path: ".\\@erqewee", name: "database", adapter: DatabaseTypes.JSON });
+const ydb = new Database({ path: ".\\@erqewee", name: "database", adapter: DatabaseTypes.YAML });
 
 import { Positions, SaveTypes } from "./export";
 
@@ -67,7 +68,7 @@ export class Personalize {
             this.password.output = added;
 
             return logger.log("Your password successfully edited!", `\nEntered Password  : ${this.password.input}\nNew Password  : ${added}\n\nNew Length: ${this.password.length.new}\nOld Length: ${this.password.length.old}`, 2);
-         };
+        };
 
         if (position === Positions.Right) {
             this.password.length.old = String(this.password.input).length;
@@ -76,14 +77,14 @@ export class Personalize {
             this.password.output = added;
 
             return logger.log("Your password successfully edited!", `\nEntered Password  : ${this.password.input}\nNew Password  : ${added}\n\nNew Length: ${this.password.length.new}\nOld Length: ${this.password.length.old}`, 2);
-         };
+        };
 
         if (position === Positions.Center) {
             const p: string = this.password.input;
 
             this.password.length.old = String(this.password.input).length;
             const middle: number = Math.ceil(p.length / 2);
-            const add: string = p.substring(0, middle) + text + p.substring(middle);            
+            const add: string = p.substring(0, middle) + text + p.substring(middle);
             this.password.length.new = String(add).length;
             this.password.output = add;
 

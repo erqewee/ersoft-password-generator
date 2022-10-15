@@ -4,9 +4,10 @@ import { LogTypes, SaveTypes } from "./export";
 import { Logger } from "./base/Logger";
 const logger: Logger = new Logger();
 
-import { JsonDatabase, YamlDatabase } from "wio.db";
-const jdb = new JsonDatabase({ databasePath: ".\\@erqewee\\database.json" });
-const ydb = new YamlDatabase({ databasePath: ".\\@erqewee\\database.yml" });
+import { DatabaseTypes } from "./base/@types/DatabaseOptions";
+import { Database } from "./base/Database";
+const jdb = new Database({ path: ".\\@erqewee", name: "database", adapter: DatabaseTypes.JSON });
+const ydb = new Database({ path: ".\\@erqewee", name: "database", adapter: DatabaseTypes.YAML });
 
 export class Password {
     /*
@@ -44,7 +45,7 @@ export class Password {
         } else return psw;
     };
 
-    public async clear({ force }: { force?: boolean }) {
+    public clear({ force }: { force?: boolean }) {
         if (force) return this.password = "";
         if (!this.password) return logger.log("No password for clean!", "Create password with \"generate()\" function. Or set force mode to true! (default: false)", 0);
 
@@ -54,7 +55,7 @@ export class Password {
     /**
      * Save password with custom save types
      */
-    public async save(type: SaveTypes = SaveTypes.File, path: string = "password.txt") {
+    public save(type: SaveTypes = SaveTypes.File, path: string = "password.txt") {
         if (!this.password) logger.log("No password for save!", "Create password with \"generate()\" function!", 0);
 
         const date: Date = new Date();
@@ -80,12 +81,12 @@ export class Password {
 | Created At: ${time}
 |==============\n\n`;
 
-            writeFileSync(path, detailed, { flag: "a" });
+            return writeFileSync(path, detailed, { flag: "a" });
         };
 
-        if (type === SaveTypes.JsonDatabase) {
-            logger.log("INFORMATION!", "Json and Yaml database provided with \"wio.db\" module.");
+        logger.log("INFORMATION!", "Json and Yaml database provided with \"wio.db\" module.");
 
+        if (type === SaveTypes.JsonDatabase) {
             jdb.set("pw-gen", {
                 Password: this.password,
                 Date: time
@@ -95,8 +96,6 @@ export class Password {
         };
 
         if (type === SaveTypes.YamlDatabase) {
-            logger.log("INFORMATION!", "Json and Yaml database provided with \"wio.db\" module.");
-
             ydb.set("pw-gen", {
                 Password: this.password,
                 Date: time

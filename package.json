@@ -1,11 +1,14 @@
 {
   "name": "@ersoft/password-generator",
-  "version": "1.0.0-stable",
+  "version": "1.0.2",
   "description": "Best password generator!",
   "main": "src/export.ts",
   "private": false,
   "scripts": {
-    "start": "ts-node src/export.ts"
+    "start": "ts-node src/index.ts"
+  },
+  "repository": {
+    "url": "https://github.com/erqewee/ersoft-password-generator"
   },
   "keywords": [
     "pw",
